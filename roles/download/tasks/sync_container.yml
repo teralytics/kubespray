@@ -67,7 +67,7 @@
     - download.enabled
     - download.container
     - download_run_once
-    - (ansible_os_family not in ["CoreOS", "Container Linux by CoreOS"] or download_delegate == "localhost")
+    - (ansible_os_family not in ['Coreos', "CoreOS", "Container Linux by CoreOS"] or download_delegate == "localhost")
     - (container_changed or not img.stat.exists)
 
 - name: container_download | create container images directory on ansible host
@@ -82,7 +82,7 @@
     - download.enabled
     - download.container
     - download_run_once
-    - ansible_os_family not in ["CoreOS", "Container Linux by CoreOS"]
+    - ansible_os_family not in ['Coreos', "CoreOS", "Container Linux by CoreOS"]
     - inventory_hostname == download_delegate
     - download_delegate != "localhost"
     - saved.changed
@@ -102,7 +102,7 @@
     - download.enabled
     - download.container
     - download_run_once
-    - ansible_os_family not in ["CoreOS", "Container Linux by CoreOS"]
+    - ansible_os_family not in ['Coreos', "CoreOS", "Container Linux by CoreOS"]
     - inventory_hostname == download_delegate
     - download_delegate != "localhost"
     - saved.changed
@@ -124,7 +124,7 @@
     - download.enabled
     - download.container
     - download_run_once
-    - (ansible_os_family not in ["CoreOS", "Container Linux by CoreOS"] and
+    - (ansible_os_family not in ['Coreos', "CoreOS", "Container Linux by CoreOS"] and
       inventory_hostname != download_delegate or
       download_delegate == "localhost")
   tags:
@@ -137,7 +137,7 @@
     - download.enabled
     - download.container
     - download_run_once
-    - (ansible_os_family not in ["CoreOS", "Container Linux by CoreOS"] and
+    - (ansible_os_family not in ['Coreos', "CoreOS", "Container Linux by CoreOS"] and
       inventory_hostname != download_delegate or download_delegate == "localhost")
   tags:
     - upload
