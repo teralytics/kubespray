@@ -8,7 +8,7 @@
     - Preinstall | kube-apiserver configured
     - Preinstall | restart kube-controller-manager
     - Preinstall | restart kube-apiserver
-  when: not ansible_os_family in ["CoreOS", "Container Linux by CoreOS"]
+  when: not ansible_os_family in ["Coreos", "CoreOS", "Container Linux by CoreOS"]
 
   # FIXME(bogdando) https://github.com/projectcalico/felix/issues/1185
 - name: Preinstall | reload network
