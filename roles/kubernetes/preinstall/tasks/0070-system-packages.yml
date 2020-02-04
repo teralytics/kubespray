@@ -64,7 +64,7 @@
   until: pkgs_task_result is succeeded
   retries: 4
   delay: "{{ retry_stagger | random + 3 }}"
-  when: not (ansible_os_family in ["CoreOS", "Container Linux by CoreOS", "ClearLinux"] or is_atomic)
+  when: not (ansible_os_family in ['Coreos', "CoreOS", "Container Linux by CoreOS", "ClearLinux"] or is_atomic)
   tags:
     - bootstrap-os
 
