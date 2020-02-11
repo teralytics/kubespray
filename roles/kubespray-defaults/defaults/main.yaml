@@ -12,7 +12,7 @@ is_atomic: false
 disable_swap: true
 
 ## Change this to use another Kubernetes version, e.g. a current beta release
-kube_version: v1.14.3
+kube_version: v1.14.6
 
 ## Kube Proxy mode One of ['iptables','ipvs']
 kube_proxy_mode: ipvs
@@ -410,7 +410,7 @@ proxy_env:
 
 ssl_ca_dirs: >-
   [
-  {% if ansible_os_family in ['CoreOS', 'Container Linux by CoreOS'] -%}
+  {% if ansible_os_family in ['Coreos', 'CoreOS', 'Container Linux by CoreOS'] -%}
   '/usr/share/ca-certificates',
   {% elif ansible_os_family == 'RedHat' -%}
   '/etc/pki/tls',
