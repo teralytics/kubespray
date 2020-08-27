@@ -29,6 +29,10 @@
   failed_when: kubeadm_upgrade.rc != 0 and "field is immutable" not in kubeadm_upgrade.stderr
   notify: Master | restart kubelet
 
+- set_fact:
+    coredns_migration_failed: '{{ "the CoreDNS Configuration was not migrated" in kubeadm_upgrade.stderr }}'
+  when: inventory_hostname == groups['kube-master']|first
+
 # FIXME: https://github.com/kubernetes/kubeadm/issues/1498 remove stdout_lines
 # check after issue is fixed
 - name: kubeadm | Upgrade other masters
@@ -50,6 +54,10 @@
     - '"field is immutable" not in kubeadm_upgrade.stderr'
     - kubeadm_upgrade.stdout_lines | length > 1
   notify: Master | restart kubelet
+
+- set_fact:
+    coredns_migration_failed: '{{ "the CoreDNS Configuration was not migrated" in kubeadm_upgrade.stderr }}'
+  when: inventory_hostname != groups['kube-master']|first
 
 - name: kubeadm | clean kubectl cache to refresh api types
   file:
@@ -75,3 +83,10 @@
     - kubeadm_scale_down_coredns_enabled
     - dns_mode not in ['coredns', 'coredns_dual']
   changed_when: false
+
+- name: kubeadm | fix CoreDNS deployment in case migration failed
+  shell: >
+    "{{ bin_dir }}/kubectl" --kubeconfig /etc/kubernetes/admin.conf get -n kube-system deployments.apps coredns -o yaml |
+    sed 's/Corefile-backup/Corefile/g' |
+    "{{ bin_dir }}/kubectl" --kubeconfig /etc/kubernetes/admin.conf apply -f -
+  when: coredns_migration_failed
